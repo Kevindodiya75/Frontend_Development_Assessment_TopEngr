@@ -1,0 +1,44 @@
+/* Dashboard Styles */
+.dashboard-container {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin: 20px auto;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  color: white;
+}
+
+.info-card h5 {
+  font-size: 1.2rem;
+}
+
+.info-card .card-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Chart Container */
+.chart-container {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    overflow-x:auto;
+  overflow-y: auto;
+  }
+
+  .info-card .card-text {
+    font-size: 1.5rem;
+  }
+
+  .chart-container {
+    padding: 10px;
+  }
+}

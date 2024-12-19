@@ -1,0 +1,21 @@
+/* Set the background color for the entire application */
+body {
+  background-color: #f9f9f9; /* Light white background */
+  color: #333; /* Default text color */
+  margin: 0;
+  font-family: Arial, sans-serif; /* Optional: Set a font */
+}
+
+header,
+footer,
+.content,
+.dashboard-container,
+.card {
+  background-color: #ffffff; /* White background for individual sections */
+}
+
+/* Optional: Add padding and margins to avoid elements sticking to edges */
+.container {
+  padding: 20px;
+}
+

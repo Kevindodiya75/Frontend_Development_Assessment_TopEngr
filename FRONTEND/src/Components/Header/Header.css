@@ -1,0 +1,78 @@
+/* Base styles for the header */
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: #ffffff; /* Light white background */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s ease, padding 0.3s ease;
+  }
+  
+  /* Expanded header when sidebar is open */
+  .header-expanded {
+    margin-left: 250px; /* Adjust to sidebar width */
+    padding: 1.5rem 2rem; /* Increased padding for more spacious feel */
+  }
+  
+  /* Shrunk header when sidebar is closed */
+  .header-shrunk {
+    margin-left:60px; /* Adjust to sidebar width */
+    padding: 1rem; /* Compact padding */
+  }
+  
+  /* Logo styles */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-img {
+    transition: height 0.3s ease;
+  }
+  
+  /* Dashboard title */
+  .dashboard-title {
+    color: #007bff; /* Primary blue color */
+    margin: 0;
+    transition: font-size 0.3s ease;
+  }
+  
+  .dashboard-title.title-large {
+    font-size: 1.8rem; /* Large title when expanded */
+  }
+  
+  .dashboard-title.title-small {
+    font-size: 1.2rem; /* Smaller title when shrunk */
+  }
+  
+  /* User info styles */
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    transition: height 0.3s ease, width 0.3s ease;
+  }
+  
+  /* Welcome text */
+  .welcome-text {
+    color: #6c757d; /* Secondary color */
+    margin-right: 10px;
+    transition: font-size 0.3s ease;
+  }
+  
+  .welcome-text.text-large {
+    font-size: 1rem; /* Larger text when expanded */
+  }
+  
+  .welcome-text.text-small {
+    font-size: 0.9rem; /* Smaller text when shrunk */
+  }
+  
