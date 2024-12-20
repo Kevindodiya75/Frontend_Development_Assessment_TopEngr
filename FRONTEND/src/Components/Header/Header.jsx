@@ -2,51 +2,26 @@ import React from "react";
 import "./Header.css";
 import photo from "../../../public/vite.svg";
 import { useSidebar } from "../Sidebar/SidebarContext";
+import avtar from "../../assets/graphic-designer-digital-avatar-generative-ai_934475-9292.avif";
 
 const Header = () => {
-  const { isSidebarOpen } = useSidebar();
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   return (
-    <header
-      className={`dashboard-header ${
-        isSidebarOpen ? "header-expanded" : "header-shrunk"
-      }`}
-    >
-      <div className="logo d-flex align-items-center">
-        <img
-          src={photo}
-          alt="Logo"
-          className="logo-img me-2"
-          style={{
-            height: isSidebarOpen ? "60px" : "40px",
-            transition: "height 0.3s ease",
-          }}
-        />
-        <h2
-          className={`dashboard-title ${
-            isSidebarOpen ? "title-large" : "title-small"
-          }`}
-        >
-          Dashboard
-        </h2>
+    <header className={`dashboard-header `}>
+      {/* Logo and Title */}
+      <div className="logo d-flex align-items-center ">
+        <img src={photo} alt="Logo" className="logo-img " />
+        <h2 className="dashboard-title ms-2">Dashboard</h2>
       </div>
-      <div className="user-info d-flex align-items-center">
-        <span
-          className={`welcome-text ${
-            isSidebarOpen ? "text-large" : "text-small"
-          }`}
-        >
-          Welcome, User!
-        </span>
+
+      {/* User Info */}
+      <div className="user-info d-flex align-items-center  ms-2">
         <img
-          src="/path/to/user-avatar.png"
+          src={avtar}
           alt="User Avatar"
-          className="rounded-circle user-avatar"
-          style={{
-            height: isSidebarOpen ? "50px" : "40px",
-            width: isSidebarOpen ? "50px" : "40px",
-            transition: "height 0.3s ease, width 0.3s ease",
-          }}
+          className="rounded-circle user-avatar  ms-2"
+          style={{ height: "40px", width: "40px" }}
         />
       </div>
     </header>

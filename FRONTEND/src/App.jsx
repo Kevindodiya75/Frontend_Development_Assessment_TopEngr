@@ -5,6 +5,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import Header from "./Components/Header/Header"; // Import the Header component
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Form from "./Components/Form/DataForm";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             {/* Add other routes here */}
           </Routes>
         </div>
+        <Footer />
       </Router>
     </SidebarProvider>
   );

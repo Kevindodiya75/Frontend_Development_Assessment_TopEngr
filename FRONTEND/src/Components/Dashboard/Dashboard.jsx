@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,10 +11,10 @@ import {
   Legend,
 } from "chart.js";
 import { useSidebar } from "../Sidebar/SidebarContext";
+import fetchDashboardData from "../services/dashboardService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Dashboard.css";
 
-// Register required Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -37,27 +37,25 @@ const Dashboard = () => {
 
   const { isSidebarOpen } = useSidebar();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://test.topengr.com/api/v1/assessment/dashboard"
-        );
-        const result = await response.json();
-        setApidata({
-          dp1: result.dp1,
-          dp2: result.dp2,
-          dp3: result.dp3,
-          labels: result.labels,
-          data1: result.data1,
-          data2: result.data2,
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+  const loadData = useCallback(async () => {
+    try {
+      const result = await fetchDashboardData();
+      setApidata({
+        dp1: result.dp1,
+        dp2: result.dp2,
+        dp3: result.dp3,
+        labels: result.labels,
+        data1: result.data1,
+        data2: result.data2,
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
   }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const data = {
     labels: apidata.labels.length ? apidata.labels : ["Loading..."],
@@ -140,10 +138,7 @@ const Dashboard = () => {
           </div>
 
           {/* Responsive Chart */}
-          <div
-            className="chart-container rounded shadow p-3"
-            style={{ height: "400px", overflowX: "auto" }}
-          >
+          <div className="chart-container rounded shadow p-3">
             <Line data={data} options={options} />
           </div>
         </div>

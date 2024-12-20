@@ -1,21 +1,115 @@
-/* Set the background color for the entire application */
+/* Body and Background */
 body {
-  background-color: #f9f9f9; /* Light white background */
-  color: #333; /* Default text color */
+  background-color: #f4f4f9; /* Light grayish white for a clean look */
+  color: #333; /* Standard text color */
+  font-family: "Arial", sans-serif;
   margin: 0;
-  font-family: Arial, sans-serif; /* Optional: Set a font */
 }
 
-header,
-footer,
-.content,
-.dashboard-container,
+/* Header and Footer */
+header, footer {
+  background-color: #004b93; /* Deep navy blue */
+  color: #ffffff; /* White text for contrast */
+}
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(135deg, #3b82f6, #2563eb); /* Blue gradient */
+  color: white;
+}
+
+.sidebar .nav-link {
+  color: #e0e0e0; /* Light gray for links */
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Cards */
 .card {
-  background-color: #ffffff; /* White background for individual sections */
+  background-color: #ffffff; /* Plain white for cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px;
 }
 
-/* Optional: Add padding and margins to avoid elements sticking to edges */
-.container {
-  padding: 20px;
+.card h2 {
+  color: #1e3a8a; /* Navy blue for titles */
 }
 
+/* Form Inputs */
+input.form-control {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input.form-control:focus {
+  border-color: #1d4ed8; /* Blue focus color */
+  box-shadow: 0 0 5px rgba(29, 78, 216, 0.5);
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(to right, #007bff, #6610f2);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0056b3, #4c0aaf); /* Darker hover effect */
+  transform: scale(1.05); /* Slight zoom */
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  background-color: #007bff; /* Bright blue */
+  color: #ffffff;
+}
+
+/* Info Cards */
+.info-card {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Blue gradient */
+  color: #ffffff;
+}
+
+.info-card h5 {
+  color: #f0f0f0; /* Lighter text for smaller headers */
+}
+
+.info-card .card-text {
+  color: #ffffff; /* White text for bold numbers */
+}
+
+/* Chart Container */
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .info-card {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+
+  .chart-container {
+    height: 250px;
+  }
+}
+
+/* Animations */
+button {
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0056b3, #4c0aaf);
+  transform: scale(1.05);
+}
