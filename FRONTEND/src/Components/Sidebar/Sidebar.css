@@ -50,9 +50,9 @@
 
 .nav-link:hover {
   background-color: rgba(255, 255, 255, 0.2);
-  padding-left: 20px; /* More pronounced hover effect */
+  padding-left: 20px;
   border-radius: 5px;
-  transform: scale(1.05); /* Slight scaling on hover */
+  transform: scale(1.05);
 }
 
 .nav-link i {
