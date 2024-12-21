@@ -1,4 +1,62 @@
-// useValidate.js
+// import { useState } from "react";
+
+// const useValidate = () => {
+//   const [errors, setErrors] = useState({
+//     firstName: "",
+//     lastName: "",
+//     email: "",
+//     city: "",
+//     state: "",
+//     country: "",
+//   });
+
+//   const validateField = (field, value) => {
+//     const newErrors = { ...errors };
+//     let errorMessage = "";
+
+//     const nameRegex = /^[A-Za-z\s]+$/;
+//     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+//     if (!value.trim()) {
+//       errorMessage = `${
+//         field.charAt(0).toUpperCase() + field.slice(1)
+//       } is required.`;
+//     } else if (field === "email" && !emailRegex.test(value)) {
+//       errorMessage = "Please enter a valid email address.";
+//     } else if (
+//       ["firstName", "lastName", "city", "state", "country"].includes(field) &&
+//       !nameRegex.test(value)
+//     ) {
+//       errorMessage = `${
+//         field.charAt(0).toUpperCase() + field.slice(1)
+//       } must contain only letters.`;
+//     }
+
+//     newErrors[field] = errorMessage;
+//     setErrors(newErrors); // Update the error state with new errors
+
+//     return !errorMessage; // Return true if no error
+//   };
+
+//   const validateAll = (formData) => {
+//     let isValid = true;
+//     for (const field in formData) {
+//       if (!validateField(field, formData[field])) {
+//         isValid = false;
+//       }
+//     }
+//     return isValid;
+//   };
+
+//   return {
+//     errors,
+//     validateField,
+//     validateAll,
+//   };
+// };
+
+// export default useValidate;
+
 import { useState } from "react";
 
 const useValidate = () => {
@@ -11,76 +69,51 @@ const useValidate = () => {
     country: "",
   });
 
-  const validate = (formData) => {
+  const validateField = (field, value) => {
     const newErrors = { ...errors };
+    let errorMessage = "";
 
-    // Regular expression to allow only letters and spaces
     const nameRegex = /^[A-Za-z\s]+$/;
-
-    // Validate firstName
-    if (!formData.firstName) {
-      newErrors.firstName = "First name is required.";
-    } else if (!nameRegex.test(formData.firstName)) {
-      newErrors.firstName = "First name must contain only letters.";
-    } else {
-      newErrors.firstName = "";
-    }
-
-    // Validate lastName
-    if (!formData.lastName) {
-      newErrors.lastName = "Last name is required.";
-    } else if (!nameRegex.test(formData.lastName)) {
-      newErrors.lastName = "Last name must contain only letters.";
-    } else {
-      newErrors.lastName = "";
-    }
-
-    // Validate email (basic check for valid email format)
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!formData.email) {
-      newErrors.email = "Email is required.";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    } else {
-      newErrors.email = "";
+
+    if (!value.trim()) {
+      errorMessage = `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } is required.`;
+    } else if (field === "email" && !emailRegex.test(value)) {
+      errorMessage = "Please enter a valid email address.";
+    } else if (
+      ["firstName", "lastName", "city", "state", "country"].includes(field) &&
+      !nameRegex.test(value)
+    ) {
+      errorMessage = `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } must contain only letters.`;
     }
 
-    // Validate city
-    if (!formData.city) {
-      newErrors.city = "City is required.";
-    } else if (!nameRegex.test(formData.city)) {
-      newErrors.city = "City must contain only letters.";
-    } else {
-      newErrors.city = "";
-    }
-
-    // Validate state
-    if (!formData.state) {
-      newErrors.state = "State is required.";
-    } else if (!nameRegex.test(formData.state)) {
-      newErrors.state = "State must contain only letters.";
-    } else {
-      newErrors.state = "";
-    }
-
-    // Validate country
-    if (!formData.country) {
-      newErrors.country = "Country is required.";
-    } else if (!nameRegex.test(formData.country)) {
-      newErrors.country = "Country must contain only letters.";
-    } else {
-      newErrors.country = "";
-    }
-
+    newErrors[field] = errorMessage;
     setErrors(newErrors);
 
-    // Return true if no errors are found
-    return !Object.values(newErrors).some((error) => error !== "");
+    return !errorMessage; // Return true if no error
+  };
+
+  const validateAll = (formData) => {
+    const fields = Object.keys(formData);
+    let isValid = true;
+
+    fields.forEach((field) => {
+      if (!validateField(field, formData[field])) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
   };
 
   return {
     errors,
-    validate,
+    validateField,
+    validateAll,
   };
 };
 

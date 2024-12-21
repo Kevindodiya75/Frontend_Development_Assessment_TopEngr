@@ -3,12 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSidebar } from "../Sidebar/SidebarContext";
-import useValidate from "../Helper/useValidate"; // Import the validation hook
-import submitFormData from "../services/formService"; // Import the service function
+import useValidate from "../Helper/useValidate";
+import submitFormData from "../services/formService";
 
 const FormPage = () => {
   const { isSidebarOpen } = useSidebar();
-  const { errors, validate } = useValidate(); // Destructure the hook
+  const { errors, validateField, validateAll } = useValidate();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -19,19 +19,8 @@ const FormPage = () => {
     country: "",
   });
 
-  const [isEditing, setIsEditing] = useState(false); // Track editing mode
-  const [isSubmitted, setIsSubmitted] = useState(false); // Track form submission
-
-  // Validate the entire form data
-  const validateForm = () => {
-    const isValid = validate(formData);
-    if (!isValid) {
-      toast.error(
-        "Please fill out all required fields correctly before submitting."
-      );
-    }
-    return isValid;
-  };
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,14 +29,16 @@ const FormPage = () => {
       [name]: value,
     });
 
-    // Validate on field change
-    validate({ [name]: value });
+    // Validate the updated field
+    validateField(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    // Check for general validation errors
+    if (!validateAll(formData)) {
+      toast.error("Please fix the errors before submitting.");
       return;
     }
 
@@ -56,8 +47,8 @@ const FormPage = () => {
       toast.success("Form submitted successfully!");
       console.log("Success:", result);
 
-      setIsSubmitted(true); // Mark the form as submitted
-      setIsEditing(false); // Disable editing after submission
+      setIsSubmitted(true);
+      setIsEditing(true);
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.message || "An error occurred.");
@@ -65,7 +56,8 @@ const FormPage = () => {
   };
 
   const handleEdit = async () => {
-    if (!validateForm()) {
+    if (!validateAll(formData)) {
+      toast.error("Please fix the errors before updating.");
       return;
     }
 
@@ -74,7 +66,7 @@ const FormPage = () => {
       toast.success("Data updated successfully!");
       console.log("Edit Success:", result);
 
-      handleClose(); // After updating, reset the form
+      handleClose();
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.message || "An error occurred.");
@@ -82,7 +74,6 @@ const FormPage = () => {
   };
 
   const handleClose = () => {
-    // Clear the form, reset validation errors, and hide buttons
     setFormData({
       firstName: "",
       lastName: "",
@@ -91,8 +82,8 @@ const FormPage = () => {
       state: "",
       country: "",
     });
-    setIsEditing(false); // Exit editing mode
-    setIsSubmitted(false); // Show Submit button
+    setIsEditing(false);
+    setIsSubmitted(false);
   };
 
   return (
@@ -107,6 +98,7 @@ const FormPage = () => {
             Please fill out the form below to get started.
           </p>
           <form onSubmit={handleSubmit}>
+            {/* First Name */}
             <div className="row g-3">
               <div className="col-md-6">
                 <label htmlFor="firstName" className="form-label fw-bold">
@@ -126,6 +118,8 @@ const FormPage = () => {
                 />
                 <div className="invalid-feedback">{errors.firstName}</div>
               </div>
+
+              {/* Last Name */}
               <div className="col-md-6">
                 <label htmlFor="lastName" className="form-label fw-bold">
                   Last Name
@@ -145,8 +139,10 @@ const FormPage = () => {
                 <div className="invalid-feedback">{errors.lastName}</div>
               </div>
             </div>
+
+            {/* Email */}
             <div className="row g-3 mt-3">
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <label htmlFor="email" className="form-label fw-bold">
                   Email
                 </label>
@@ -157,13 +153,17 @@ const FormPage = () => {
                   }`}
                   id="email"
                   name="email"
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
                   required
                 />
                 <div className="invalid-feedback">{errors.email}</div>
               </div>
+            </div>
+
+            {/* City */}
+            <div className="row g-3 mt-3">
               <div className="col-md-6">
                 <label htmlFor="city" className="form-label fw-bold">
                   City
@@ -182,8 +182,8 @@ const FormPage = () => {
                 />
                 <div className="invalid-feedback">{errors.city}</div>
               </div>
-            </div>
-            <div className="row g-3 mt-3">
+
+              {/* State */}
               <div className="col-md-6">
                 <label htmlFor="state" className="form-label fw-bold">
                   State
@@ -202,7 +202,11 @@ const FormPage = () => {
                 />
                 <div className="invalid-feedback">{errors.state}</div>
               </div>
-              <div className="col-md-6">
+            </div>
+
+            {/* Country */}
+            <div className="row g-3 mt-3">
+              <div className="col-md-12">
                 <label htmlFor="country" className="form-label fw-bold">
                   Country
                 </label>
@@ -221,44 +225,34 @@ const FormPage = () => {
                 <div className="invalid-feedback">{errors.country}</div>
               </div>
             </div>
-            <div className="mt-4">
-              {!isSubmitted ? (
+
+            {/* Buttons */}
+            <div className="mt-4 d-flex justify-content-center flex-wrap">
+              {!isEditing && !isSubmitted && (
                 <button
                   type="submit"
-                  className="btn btn-primary w-25 py-2 shadow-sm "
-                  onClick={handleSubmit}
-                  style={{
-                    background: "linear-gradient(to right, #007bff, #6610f2)",
-                    border: "none",
-                  }}
+                  className="btn btn-primary w-auto py-1 px-3 shadow-sm mb-3 mb-md-0"
                 >
-                  {isEditing ? "Update" : "Submit"}
+                  Submit
                 </button>
-              ) : (
-                <div className="mt-3 d-flex justify-content-between">
-                  <button
-                    type="button"
-                    className="btn btn-warning"
-                    onClick={handleEdit}
-                    style={{
-                      background: "#ffc107",
-                      border: "none",
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={handleClose}
-                    style={{
-                      background: "#6c757d",
-                      border: "none",
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
+              )}
+              {isEditing && (
+                <button
+                  type="button"
+                  className="btn btn-success w-auto py-1 px-3 shadow-sm mb-3 mb-md-0"
+                  onClick={handleEdit}
+                >
+                  Update
+                </button>
+              )}
+              {(isSubmitted || isEditing) && (
+                <button
+                  type="button"
+                  className="btn btn-secondary w-auto py-1 px-3 shadow-sm mb-3 mb-md-0 mx-2"
+                  onClick={handleClose}
+                >
+                  Close
+                </button>
               )}
             </div>
           </form>

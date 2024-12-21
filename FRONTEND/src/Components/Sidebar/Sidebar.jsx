@@ -56,9 +56,7 @@ const Sidebar = () => {
         }`}
       >
         <div className={`sidebar-content ${isSidebarOpen ? "" : "collapsed"}`}>
-          <div className="p-3 text-center text-white">
-            {isSidebarOpen && <h4>My Sidebar</h4>}
-          </div>
+          <div className="p-3 text-center text-white">{isSidebarOpen}</div>
           <nav className="nav flex-column px-3">
             <NavLink
               to="/"
@@ -73,8 +71,8 @@ const Sidebar = () => {
               className="nav-link text-white"
               onClick={toggleSidebar}
             >
-              <i className="bi bi-person-fill"></i>
-              {isSidebarOpen && <span className="ms-2">About</span>}
+              <i className="bi bi-file-earmark-break-fill"></i>
+              {isSidebarOpen && <span className="ms-2">Form</span>}
             </NavLink>
           </nav>
         </div>
