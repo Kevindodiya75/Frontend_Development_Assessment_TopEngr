@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:playwright": "playwright test"
+    "test": "playwright test",
+    "test:trace": "npx playwright test --trace on"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

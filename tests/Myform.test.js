@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Form Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the form page
-    await page.goto("http://localhost:5173/Myform");
+    await page.goto("http://localhost:5173/form");
   });
 
   test("should successfully submit the form", async ({ page }) => {
