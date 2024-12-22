@@ -26,18 +26,14 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [apidata, setApidata] = useState({
-    dp1: "",
-    dp2: "",
-    dp3: "",
-    labels: [],
-    data1: [],
-    data2: [],
-  });
-
+  const [apidata, setApidata] = useState(null);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { isSidebarOpen } = useSidebar();
 
   const loadData = useCallback(async () => {
+    setLoading(true);
+    setError(false);
     try {
       const result = await fetchDashboardData();
       setApidata({
@@ -50,6 +46,9 @@ const Dashboard = () => {
       });
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -58,18 +57,18 @@ const Dashboard = () => {
   }, [loadData]);
 
   const data = {
-    labels: apidata.labels.length ? apidata.labels : ["Loading..."],
+    labels: apidata?.labels || ["Loading..."],
     datasets: [
       {
         label: "Dataset 1",
-        data: apidata.data1.length ? apidata.data1 : [0, 0, 0, 0],
+        data: apidata?.data1 || [0, 0, 0, 0],
         borderColor: "rgba(75,192,192,1)",
         backgroundColor: "rgba(75,192,192,0.2)",
         fill: true,
       },
       {
         label: "Dataset 2",
-        data: apidata.data2.length ? apidata.data2 : [0, 0, 0, 0],
+        data: apidata?.data2 || [0, 0, 0, 0],
         borderColor: "rgba(192,75,192,1)",
         backgroundColor: "rgba(192,75,192,0.2)",
         fill: true,
@@ -84,63 +83,67 @@ const Dashboard = () => {
       title: {
         display: true,
         text: "Performance Over Time",
-        font: {
-          size: 18,
-        },
       },
       legend: {
         position: "top",
-        labels: {
-          font: {
-            size: 12,
-          },
-        },
       },
     },
     scales: {
       x: {
-        title: {
-          display: true,
-          text: "Time Period",
-        },
+        title: { display: true, text: "Time Period" },
       },
       y: {
-        title: {
-          display: true,
-          text: "Values",
-        },
+        title: { display: true, text: "Values" },
       },
     },
   };
+
+  if (loading) {
+    return <div className="text-center text-secondary">Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-danger">
+        Error fetching dashboard data.
+        <button onClick={loadData} className="btn btn-primary mt-3">
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`content ${isSidebarOpen ? "content-shrink" : ""}`}>
       <div className="dashboard-container container mt-4">
         <div className="card shadow-lg rounded p-3">
           <h1 className="text-center mb-4 text-primary">Dynamic Dashboard</h1>
-
-          {/* Responsive Data Cards */}
-          <div className="row g-3 mb-4">
-            {["dp1", "dp2", "dp3"].map((key, index) => (
-              <div key={index} className="col-12 col-md-6 col-lg-4">
-                <div className="info-card card text-center shadow-sm border-0">
-                  <div className="card-body">
-                    <h5 className="card-title text-secondary">
-                      {`Data Point ${index + 1}`}
-                    </h5>
-                    <p className="card-text text-dark display-6">
-                      {apidata[key] || "Loading..."}
-                    </p>
+          {apidata && (
+            <>
+              {/* Data Points */}
+              <div className="row g-3 mb-4">
+                {["dp1", "dp2", "dp3"].map((key, index) => (
+                  <div key={index} className="col-12 col-md-6 col-lg-4">
+                    <div className="info-card card text-center shadow-sm border-0">
+                      <div className="card-body">
+                        <h5 className="card-title text-secondary">
+                          {`Data Point ${index + 1}`}
+                        </h5>
+                        <p className="card-text text-dark display-6">
+                          {apidata[key]}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Responsive Chart */}
-          <div className="chart-container rounded shadow p-3">
-            <Line data={data} options={options} />
-          </div>
+              {/* Chart */}
+              <div className="chart-container rounded shadow p-3">
+                <Line data={data} options={options} />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

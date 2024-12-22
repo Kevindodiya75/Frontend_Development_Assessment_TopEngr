@@ -1,104 +1,62 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "../Helper/validationSchema"; // Import validation schema
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSidebar } from "../Sidebar/SidebarContext";
-import useValidate from "../Helper/useValidate";
 import submitFormData from "../services/formService";
 
-const FormPage = () => {
-  const { isSidebarOpen } = useSidebar();
-  const { errors, validateField, validateAll } = useValidate();
-
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    city: "",
-    state: "",
-    country: "",
+const DataForm = () => {
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // Validate the updated field
-    validateField(name, value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Check for general validation errors
-    if (!validateAll(formData)) {
-      toast.error("Please fix the errors before submitting.");
-      return;
-    }
-
+  const onSubmit = async (data) => {
     try {
-      const result = await submitFormData(formData);
+      await submitFormData(data);
       toast.success("Form submitted successfully!");
-      console.log("Success:", result);
-
-      setIsSubmitted(true);
       setIsEditing(true);
     } catch (error) {
-      console.error("Error:", error);
       toast.error(error.message || "An error occurred.");
     }
   };
 
-  const handleEdit = async () => {
-    if (!validateAll(formData)) {
-      toast.error("Please fix the errors before updating.");
-      return;
-    }
-
+  const onUpdate = async (data) => {
     try {
-      const result = await submitFormData(formData);
-      toast.success("Data updated successfully!");
-      console.log("Edit Success:", result);
-
-      handleClose();
+      await submitFormData(data); // Replace with update API if needed
+      toast.success("Form updated successfully!");
+      reset(); // Clear the form
+      setIsEditing(false); // Exit edit mode
     } catch (error) {
-      console.error("Error:", error);
       toast.error(error.message || "An error occurred.");
     }
   };
 
-  const handleClose = () => {
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      city: "",
-      state: "",
-      country: "",
-    });
-    setIsEditing(false);
-    setIsSubmitted(false);
+  const onClose = () => {
+    reset(); // Clear the form
+    setIsEditing(false); // Exit edit mode
   };
 
   return (
-    <div className={`content ${isSidebarOpen ? "content-shrink" : ""}`}>
+    <div className="content">
       <div className="container mt-0">
-        <ToastContainer />
+        <ToastContainer autoClose={2000} />
         <div className="card shadow-lg p-5 rounded-4 border-0">
           <h2 className="text-center mb-4 fw-bold text-primary">
-            {isEditing ? "Edit User Form" : "Welcome to User Form"}
+            Welcome to User Form
           </h2>
           <p className="text-center text-muted mb-5">
             Please fill out the form below to get started.
           </p>
-          <form onSubmit={handleSubmit}>
-            {/* First Name */}
+          <form onSubmit={handleSubmit(isEditing ? onUpdate : onSubmit)}>
             <div className="row g-3">
               <div className="col-md-6">
                 <label htmlFor="firstName" className="form-label fw-bold">
@@ -110,16 +68,16 @@ const FormPage = () => {
                     errors.firstName ? "is-invalid" : ""
                   }`}
                   id="firstName"
-                  name="firstName"
                   placeholder="Enter your first name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
+                  {...register("firstName")}
+                  onKeyUp={() => trigger("firstName")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.firstName}</div>
+                {errors.firstName && (
+                  <div className="invalid-feedback">
+                    {errors.firstName.message}
+                  </div>
+                )}
               </div>
-
-              {/* Last Name */}
               <div className="col-md-6">
                 <label htmlFor="lastName" className="form-label fw-bold">
                   Last Name
@@ -130,17 +88,17 @@ const FormPage = () => {
                     errors.lastName ? "is-invalid" : ""
                   }`}
                   id="lastName"
-                  name="lastName"
                   placeholder="Enter your last name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
+                  {...register("lastName")}
+                  onKeyUp={() => trigger("lastName")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.lastName}</div>
+                {errors.lastName && (
+                  <div className="invalid-feedback">
+                    {errors.lastName.message}
+                  </div>
+                )}
               </div>
             </div>
-
-            {/* Email */}
             <div className="row g-3 mt-3">
               <div className="col-md-12">
                 <label htmlFor="email" className="form-label fw-bold">
@@ -152,17 +110,15 @@ const FormPage = () => {
                     errors.email ? "is-invalid" : ""
                   }`}
                   id="email"
-                  name="email"
                   placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
+                  {...register("email")}
+                  onKeyUp={() => trigger("email")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.email}</div>
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email.message}</div>
+                )}
               </div>
             </div>
-
-            {/* City */}
             <div className="row g-3 mt-3">
               <div className="col-md-6">
                 <label htmlFor="city" className="form-label fw-bold">
@@ -174,16 +130,14 @@ const FormPage = () => {
                     errors.city ? "is-invalid" : ""
                   }`}
                   id="city"
-                  name="city"
                   placeholder="Enter your city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
+                  {...register("city")}
+                  onKeyUp={() => trigger("city")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.city}</div>
+                {errors.city && (
+                  <div className="invalid-feedback">{errors.city.message}</div>
+                )}
               </div>
-
-              {/* State */}
               <div className="col-md-6">
                 <label htmlFor="state" className="form-label fw-bold">
                   State
@@ -194,17 +148,15 @@ const FormPage = () => {
                     errors.state ? "is-invalid" : ""
                   }`}
                   id="state"
-                  name="state"
                   placeholder="Enter your state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  required
+                  {...register("state")}
+                  onKeyUp={() => trigger("state")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.state}</div>
+                {errors.state && (
+                  <div className="invalid-feedback">{errors.state.message}</div>
+                )}
               </div>
             </div>
-
-            {/* Country */}
             <div className="row g-3 mt-3">
               <div className="col-md-12">
                 <label htmlFor="country" className="form-label fw-bold">
@@ -216,43 +168,42 @@ const FormPage = () => {
                     errors.country ? "is-invalid" : ""
                   }`}
                   id="country"
-                  name="country"
                   placeholder="Enter your country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  required
+                  {...register("country")}
+                  onKeyUp={() => trigger("country")} // Trigger validation dynamically
                 />
-                <div className="invalid-feedback">{errors.country}</div>
+                {errors.country && (
+                  <div className="invalid-feedback">
+                    {errors.country.message}
+                  </div>
+                )}
               </div>
             </div>
-
-            {/* Buttons */}
-            <div className="mt-4 d-flex justify-content-center flex-wrap">
-              {!isEditing && !isSubmitted && (
+            <div className="mt-4 d-flex justify-content-center gap-3">
+              {!isEditing && (
                 <button
                   type="submit"
-                  className="btn btn-primary w-auto py-1 px-3 shadow-sm mb-3 mb-md-0"
+                  className="btn btn-primary w-auto py-1 px-3 shadow-sm"
                 >
                   Submit
                 </button>
               )}
               {isEditing && (
-                <button
-                  type="button"
-                  className="btn btn-success w-auto py-1 px-3 shadow-sm mb-3 mb-md-0"
-                  onClick={handleEdit}
-                >
-                  Update
-                </button>
-              )}
-              {(isSubmitted || isEditing) && (
-                <button
-                  type="button"
-                  className="btn btn-secondary w-auto py-1 px-3 shadow-sm mb-3 mb-md-0 mx-2"
-                  onClick={handleClose}
-                >
-                  Close
-                </button>
+                <>
+                  <button
+                    type="submit"
+                    className="btn btn-success w-auto py-1 px-3 shadow-sm"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn btn-secondary w-auto py-1 px-3 shadow-sm"
+                  >
+                    Close
+                  </button>
+                </>
               )}
             </div>
           </form>
@@ -262,4 +213,4 @@ const FormPage = () => {
   );
 };
 
-export default FormPage;
+export default DataForm;
