@@ -1,7 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Global toast configuration
 const toastOptions = {
   autoClose: 1000,
   hideProgressBar: false,

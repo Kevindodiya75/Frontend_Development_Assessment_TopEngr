@@ -9,13 +9,11 @@ const Header = () => {
 
   return (
     <header className={`dashboard-header `}>
-      {/* Logo and Title */}
       <div className="logo d-flex align-items-center ">
         <img src={photo} alt="Logo" className="logo-img " />
         <h2 className="dashboard-title ms-2">Dashboard</h2>
       </div>
 
-      {/* User Info */}
       <div className="user-info d-flex align-items-center  ms-2">
         <img
           src={avtar}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../Helper/validationSchema"; // Import validation schema
+import { schema } from "../Helper/validationSchema";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import submitFormData from "../services/formService";
@@ -33,18 +33,18 @@ const DataForm = () => {
 
   const onUpdate = async (data) => {
     try {
-      await submitFormData(data); // Replace with update API if needed
+      await submitFormData(data);
       toast.success("Form updated successfully!");
-      reset(); // Clear the form
-      setIsEditing(false); // Exit edit mode
+      reset();
+      setIsEditing(false);
     } catch (error) {
       toast.error(error.message || "An error occurred.");
     }
   };
 
   const onClose = () => {
-    reset(); // Clear the form
-    setIsEditing(false); // Exit edit mode
+    reset();
+    setIsEditing(false);
   };
 
   return (
@@ -72,7 +72,7 @@ const DataForm = () => {
                   id="firstName"
                   placeholder="Enter your first name"
                   {...register("firstName")}
-                  onKeyUp={() => trigger("firstName")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("firstName")}
                 />
                 {errors.firstName && (
                   <div className="invalid-feedback">
@@ -92,7 +92,7 @@ const DataForm = () => {
                   id="lastName"
                   placeholder="Enter your last name"
                   {...register("lastName")}
-                  onKeyUp={() => trigger("lastName")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("lastName")}
                 />
                 {errors.lastName && (
                   <div className="invalid-feedback">
@@ -114,7 +114,7 @@ const DataForm = () => {
                   id="email"
                   placeholder="Enter your email"
                   {...register("email")}
-                  onKeyUp={() => trigger("email")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("email")}
                 />
                 {errors.email && (
                   <div className="invalid-feedback">{errors.email.message}</div>
@@ -134,7 +134,7 @@ const DataForm = () => {
                   id="city"
                   placeholder="Enter your city"
                   {...register("city")}
-                  onKeyUp={() => trigger("city")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("city")}
                 />
                 {errors.city && (
                   <div className="invalid-feedback">{errors.city.message}</div>
@@ -152,7 +152,7 @@ const DataForm = () => {
                   id="state"
                   placeholder="Enter your state"
                   {...register("state")}
-                  onKeyUp={() => trigger("state")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("state")}
                 />
                 {errors.state && (
                   <div className="invalid-feedback">{errors.state.message}</div>
@@ -172,7 +172,7 @@ const DataForm = () => {
                   id="country"
                   placeholder="Enter your country"
                   {...register("country")}
-                  onKeyUp={() => trigger("country")} // Trigger validation dynamically
+                  onKeyUp={() => trigger("country")}
                 />
                 {errors.country && (
                   <div className="invalid-feedback">

@@ -7,10 +7,9 @@ import "./Sidebar.css";
 
 const Sidebar = () => {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
-  const sidebarRef = useRef(null); // Reference for the sidebar container
-  const toggleRef = useRef(null); // Reference for the toggle button
+  const sidebarRef = useRef(null);
+  const toggleRef = useRef(null);
 
-  // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -19,17 +18,14 @@ const Sidebar = () => {
         toggleRef.current &&
         !toggleRef.current.contains(event.target)
       ) {
-        // Close the sidebar if the click is outside
         if (isSidebarOpen) {
           toggleSidebar();
         }
       }
     };
 
-    // Add event listener for clicks outside
     document.addEventListener("click", handleClickOutside);
 
-    // Clean up event listener on component unmount
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -37,9 +33,8 @@ const Sidebar = () => {
 
   return (
     <div className="d-flex">
-      {/* Sidebar Toggle Button */}
       <div
-        ref={toggleRef} // Assign the ref to the toggle button
+        ref={toggleRef}
         className={`menu-toggle ${isSidebarOpen ? "open" : ""}`}
         onClick={toggleSidebar}
       >
@@ -48,9 +43,8 @@ const Sidebar = () => {
         <span></span>
       </div>
 
-      {/* Sidebar */}
       <div
-        ref={sidebarRef} // Assign the ref to the sidebar container
+        ref={sidebarRef}
         className={`sidebar ${
           isSidebarOpen ? "sidebar-open" : "sidebar-closed"
         }`}

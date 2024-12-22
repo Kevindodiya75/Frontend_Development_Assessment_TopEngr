@@ -113,3 +113,107 @@ button:hover {
   background: linear-gradient(to right, #0056b3, #4c0aaf);
   transform: scale(1.05);
 }
+body {
+  background-color: #f4f4f9;
+  color: #333;
+  font-family: "Arial", sans-serif;
+  margin: 0;
+}
+
+header, footer {
+  background-color: #004b93;
+  color: #ffffff;
+}
+
+.sidebar {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.sidebar .nav-link {
+  color: #e0e0e0;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.card h2 {
+  color: #1e3a8a;
+}
+
+input.form-control {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input.form-control:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 5px rgba(29, 78, 216, 0.5);
+}
+
+button {
+  background: linear-gradient(to right, #007bff, #6610f2);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0056b3, #4c0aaf);
+  transform: scale(1.05);
+}
+
+.dashboard-header {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  color: #ffffff;
+}
+
+.info-card h5 {
+  color: #f0f0f0;
+}
+
+.info-card .card-text {
+  color: #ffffff;
+}
+
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .info-card {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+
+  .chart-container {
+    height: 250px;
+  }
+}
+
+button {
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0056b3, #4c0aaf);
+  transform: scale(1.05);
+}
