@@ -5,6 +5,7 @@ import { schema } from "../Helper/validationSchema"; // Import validation schema
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import submitFormData from "../services/formService";
+import { useSidebar } from "../Sidebar/SidebarContext";
 
 const DataForm = () => {
   const {
@@ -18,6 +19,7 @@ const DataForm = () => {
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const { isSidebarOpen } = useSidebar();
 
   const onSubmit = async (data) => {
     try {
@@ -46,7 +48,7 @@ const DataForm = () => {
   };
 
   return (
-    <div className="content">
+    <div className={`content ${isSidebarOpen ? "content-shrink" : ""}`}>
       <div className="container mt-0">
         <ToastContainer autoClose={2000} />
         <div className="card shadow-lg p-5 rounded-4 border-0">

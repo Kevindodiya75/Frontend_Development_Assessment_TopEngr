@@ -15,15 +15,7 @@ import fetchDashboardData from "../services/dashboardService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Dashboard.css";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 const Dashboard = () => {
   const [apidata, setApidata] = useState(null);
@@ -91,6 +83,11 @@ const Dashboard = () => {
     scales: {
       x: {
         title: { display: true, text: "Time Period" },
+        ticks: {
+          autoSkip: false, // This ensures all labels are displayed
+          maxRotation: 45, // Sets max rotation to 45 degrees
+          minRotation: 45, // Sets min rotation to 45 degrees
+        },
       },
       y: {
         title: { display: true, text: "Values" },
@@ -117,7 +114,7 @@ const Dashboard = () => {
     <div className={`content ${isSidebarOpen ? "content-shrink" : ""}`}>
       <div className="dashboard-container container mt-4">
         <div className="card shadow-lg rounded p-3">
-          <h1 className="text-center mb-4 text-primary">Dynamic Dashboard</h1>
+          <h1 className="text-center mb-4 text-primary">Dashboard</h1>
           {apidata && (
             <>
               {/* Data Points */}
