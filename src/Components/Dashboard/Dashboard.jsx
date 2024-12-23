@@ -12,7 +12,7 @@ import {
 } from "chart.js";
 import { useSidebar } from "../Sidebar/SidebarContext";
 import fetchDashboardData from "../services/dashboardService";
-import InfoCards from "./InfoCards"; // Import the new InfoCards component
+import InfoCards from "./InfoCards";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Dashboard.css";
 
@@ -134,10 +134,8 @@ const Dashboard = () => {
             </div>
           ) : (
             <>
-              {/* Info Cards */}
               <InfoCards data={apidata} />
 
-              {/* Responsive Chart */}
               <div className="chart-container rounded shadow p-3">
                 <Line data={data} options={options} />
               </div>
