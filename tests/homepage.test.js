@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Dashboard Component Tests", () => {
   const dashboardUrl = "http://localhost:5173/";
+
+  // pass
   test("should render the dashboard with data points and chart", async ({
     page,
   }) => {

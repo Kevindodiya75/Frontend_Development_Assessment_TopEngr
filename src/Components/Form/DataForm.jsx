@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../Helper/validationSchema";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import ToastConfig from "../Helper/ToastConfig";
 import submitFormData from "../services/formService";
 import { useSidebar } from "../Sidebar/SidebarContext";
 
@@ -50,7 +50,8 @@ const DataForm = () => {
   return (
     <div className={`content ${isSidebarOpen ? "content-shrink" : ""}`}>
       <div className="container mt-0">
-        <ToastContainer autoClose={2000} />
+        {/* Use the ToastConfig component */}
+        <ToastConfig />
         <div className="card shadow-lg p-5 rounded-4 border-0">
           <h2 className="text-center mb-4 fw-bold text-primary">
             Welcome to User Form

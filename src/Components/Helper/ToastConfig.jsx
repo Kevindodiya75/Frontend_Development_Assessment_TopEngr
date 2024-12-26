@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const toastOptions = {
   autoClose: 1000,
-  hideProgressBar: false,
+  hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,

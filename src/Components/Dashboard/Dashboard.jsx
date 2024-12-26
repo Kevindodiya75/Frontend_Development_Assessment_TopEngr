@@ -107,12 +107,22 @@ const Dashboard = () => {
           title: {
             display: true,
             text: "Time Period",
+            font: {
+              size: 14, // Adjust font size if needed
+            },
+          },
+          ticks: {
+            maxRotation: 45, // Rotate labels up to 45 degrees
+            minRotation: 45, // Ensure they are at least 45 degrees
           },
         },
         y: {
           title: {
             display: true,
             text: "Values",
+            font: {
+              size: 14, // Adjust font size if needed
+            },
           },
         },
       },
